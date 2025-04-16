@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: alga-foods-api
+
+  # datasource
+  datasource:
+    url: jdbc:sqlserver://LUCAS-ALVES:1433;databaseName=AlgaFoods;encrypt=false
+    username: usr_alga_foods
+    password: algaF00ds#
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  # JPA
+  jpa:
+    database-platform: org.hibernate.dialect.SQLServerDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+server:
+  error:
+    include-stacktrace: NEVER
