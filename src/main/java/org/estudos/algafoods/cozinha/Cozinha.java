@@ -16,7 +16,7 @@ public class Cozinha {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome_cozinha")
+    @Column(name = "nome_cozinha", nullable = false, length = 800)
     private String nome;
 
     @JsonIgnore
