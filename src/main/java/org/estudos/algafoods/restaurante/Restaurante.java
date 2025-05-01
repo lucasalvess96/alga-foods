@@ -2,6 +2,8 @@ package org.estudos.algafoods.restaurante;
 
 import jakarta.persistence.*;
 import org.estudos.algafoods.cozinha.Cozinha;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,8 +24,12 @@ public class Restaurante {
 
     private Boolean ativo;
 
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime dataCadastro;
 
+    @UpdateTimestamp
+    @Column(nullable = false)
     private LocalDateTime dataAtualizacao;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)

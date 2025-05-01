@@ -1,5 +1,6 @@
 package org.estudos.algafoods.cozinha;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.estudos.algafoods.restaurante.Restaurante;
 
@@ -18,6 +19,7 @@ public class Cozinha {
     @Column(name = "nome_cozinha")
     private String nome;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cozinha", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Restaurante> restaurantes = new ArrayList<>();
 

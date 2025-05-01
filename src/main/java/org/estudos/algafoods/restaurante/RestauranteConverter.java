@@ -4,6 +4,8 @@ import org.estudos.algafoods.cozinha.Cozinha;
 
 import java.time.LocalDateTime;
 
+import static org.estudos.algafoods.cozinha.CozinhaConverter.toCozinhaDto;
+
 public class RestauranteConverter {
 
     private RestauranteConverter() {
@@ -17,7 +19,7 @@ public class RestauranteConverter {
                 restaurante.getAtivo(),
                 restaurante.getDataCadastro(),
                 restaurante.getDataAtualizacao(),
-                restaurante.getCozinha() != null ? restaurante.getCozinha().getId() : null
+                toCozinhaDto(restaurante.getCozinha())
         );
     }
 

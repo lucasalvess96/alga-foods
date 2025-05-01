@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.estudos.algafoods.restaurante.RestauranteConverter.toRestauranteDto;
+import static org.estudos.algafoods.restaurante.RestauranteConverter.toRestauranteEntity;
+
 @Service
 public class RestauranteService {
 
@@ -18,14 +21,15 @@ public class RestauranteService {
         this.cozinhaService = cozinhaService;
     }
 
-    public List<Restaurante> create(List<RestauranteDto> dtos) {
-        List<Restaurante> restaurantes = dtos.stream()
-                .map(dto -> {
-                    Cozinha cozinha = cozinhaService.detail(dto.cozinhaId());
-                    return RestauranteConverter.toRestauranteEntity(dto, cozinha);
-                })
-                .toList();
+    public RestauranteDto create(RestauranteDto dto) {
+        Cozinha cozinha = cozinhaService.detail(dto.cozinha().id());
+        Restaurante restaurante = restauranteRepository.save(toRestauranteEntity(dto, cozinha));
+        return toRestauranteDto(restaurante);
+    }
 
-        return restauranteRepository.saveAll(restaurantes);
+    public List<RestauranteDto> listar() {
+        return restauranteRepository.findAll().stream()
+                .map(RestauranteConverter::toRestauranteDto)
+                .toList();
     }
 }

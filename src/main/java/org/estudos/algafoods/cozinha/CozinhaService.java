@@ -1,31 +1,35 @@
 package org.estudos.algafoods.cozinha;
 
-import org.estudos.algafoods.restaurante.RestauranteService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+
+import static org.estudos.algafoods.cozinha.CozinhaConverter.toCozinhaDto;
+import static org.estudos.algafoods.cozinha.CozinhaConverter.toCozinhaEntity;
 
 @Service
 public class CozinhaService {
 
     private final CozinhaRepository cozinhaRepository;
 
-    private final RestauranteService restauranteService;
-
-    public CozinhaService(CozinhaRepository cozinhaRepository, RestauranteService restauranteService) {
+    public CozinhaService(CozinhaRepository cozinhaRepository) {
         this.cozinhaRepository = cozinhaRepository;
-        this.restauranteService = restauranteService;
     }
 
     public CozinhaDto create(CozinhaDto cozinhaDto) {
-        Cozinha cozinha = new Cozinha();
-        cozinha.setNome(cozinhaDto.nome());
-        cozinha.setRestaurantes(restauranteService.create(cozinhaDto.restaurantes()));
-        return CozinhaConverter.toCozinhaDto(cozinhaRepository.save(cozinha));
+        Cozinha cozinhaEntity = toCozinhaEntity(cozinhaDto);
+        return toCozinhaDto(cozinhaRepository.save(cozinhaEntity));
     }
 
-    public Optional<CozinhaDto> detail(Long id) {
-        Cozinha cozinha = cozinhaRepository.findById(id).orElseThrow(() -> new RuntimeException("Cozinha não encontrada"));
-        return Optional.of(CozinhaConverter.toCozinhaDto(cozinha));
+    public List<CozinhaDto> listar() {
+        return cozinhaRepository.findAll().stream()
+                .map(CozinhaConverter::toCozinhaDto)
+                .toList();
+    }
+
+    public Cozinha detail(Long cozinhaId) {
+        return cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() -> new EntityNotFoundException("Cozinha não encontrada com ID: " + cozinhaId));
     }
 }

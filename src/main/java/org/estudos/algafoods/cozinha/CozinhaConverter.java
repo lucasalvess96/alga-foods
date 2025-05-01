@@ -1,7 +1,5 @@
 package org.estudos.algafoods.cozinha;
 
-import org.estudos.algafoods.restaurante.RestauranteConverter;
-
 public class CozinhaConverter {
 
     private CozinhaConverter() {
@@ -10,10 +8,14 @@ public class CozinhaConverter {
     public static CozinhaDto toCozinhaDto(Cozinha cozinha) {
         return new CozinhaDto(
                 cozinha.getId(),
-                cozinha.getNome(),
-                cozinha.getRestaurantes().stream()
-                        .map(RestauranteConverter::toRestauranteDto)
-                        .toList()
+                cozinha.getNome()
         );
+    }
+
+    public static Cozinha toCozinhaEntity(CozinhaDto cozinhaDto) {
+        Cozinha cozinha = new Cozinha();
+        cozinha.setId(cozinhaDto.id());
+        cozinha.setNome(cozinhaDto.nome());
+        return cozinha;
     }
 }
