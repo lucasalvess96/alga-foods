@@ -1,6 +1,6 @@
 package org.estudos.algafoods.cozinha;
 
-import jakarta.persistence.EntityNotFoundException;
+import org.estudos.algafoods.excecao.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +30,6 @@ public class CozinhaService {
 
     public Cozinha detail(Long cozinhaId) {
         return cozinhaRepository.findById(cozinhaId)
-                .orElseThrow(() -> new EntityNotFoundException("Cozinha não encontrada com ID: " + cozinhaId));
+                .orElseThrow(() -> new ResourceNotFoundException("Informações não encontradas para: " + cozinhaId));
     }
 }
