@@ -22,7 +22,7 @@ public class CozinhaController {
     @PostMapping("/create")
     @Transactional
     public ResponseEntity<CozinhaDto> createCozinha(@RequestBody @Valid CozinhaDto cozinha) {
-        return ResponseEntity.created(URI.create("/create/")).body(cozinhaService.create(cozinha));
+        return ResponseEntity.created(URI.create("/cozinha/" + cozinhaService.create(cozinha).id())).body(cozinhaService.create(cozinha));
     }
 
     @GetMapping("/listar")
