@@ -11,18 +11,7 @@ Adicione as seguintes dependências ao arquivo `pom.xml`:
 <dependency>
     <groupId>org.springdoc</groupId>
     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.2.0</version>
-</dependency>
-```
-
-Para projetos Spring Boot 2.x, use:
-
-```xml
-
-<dependency>
-    <groupId>org.springdoc</groupId>
-    <artifactId>springdoc-openapi-ui</artifactId>
-    <version>1.6.15</version>
+    <version>2.5.0</version>
 </dependency>
 ```
 
@@ -44,6 +33,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
+@OpenAPIDefinition
 public class SwaggerConfig {
 
     @Bean
@@ -66,70 +56,36 @@ public class SwaggerConfig {
                                                                 .type(SecurityScheme.Type.HTTP)
                                                                 .scheme("bearer")
                                                                 .bearerFormat("JWT")
-                                    ));
+                                    ))
+                .addServersItem(new Server().url("http://localhost:8080").description("Servidor Local"));
+        ;
     }
 }
 ```
 
-## 3. Documentar DTOs e Controllers
-
-Use a anotação `@Schema` para documentar seus DTOs:
-
-```java
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@Schema(description = "Representa uma cozinha no sistema")
-public record CozinhaDto(
-        @Schema(description = "ID da cozinha", example = "1")
-        Long id,
-
-        @Schema(description = "Nome da cozinha", example = "Brasileira")
-        String nome
-) { }
-```
-
-Para documentar controllers, use as anotações `@Operation`, `@ApiResponse`, etc:
-
-```java
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
-@RestController
-@RequestMapping("/cozinhas")
-@Tag(name = "Cozinhas", description = "Gerenciamento de cozinhas")
-public class CozinhaController {
-
-    @GetMapping
-    @Operation(summary = "Lista todas as cozinhas",
-            description = "Retorna uma lista com todas as cozinhas cadastradas")
-    @ApiResponse(responseCode = "200", description = "Cozinhas listadas com sucesso")
-    public List<CozinhaDto> listar() {
-        // ...
-    }
-}
-```
-
-## 4. Acessar a Documentação da API
+## 3. Acessar a Documentação da API
 
 Após iniciar a aplicação, acesse a documentação da API em:
 
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - Documentação OpenAPI: http://localhost:8080/v3/api-docs
 
-## 5. Configurações Adicionais (Opcional)
+## 4. Configurações Adicionais (Opcional)
 
 Para personalizar ainda mais a documentação, você pode adicionar as seguintes propriedades ao arquivo `application.yml`:
 
 ```yaml
 springdoc:
-  api-docs:
-    path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
-    operationsSorter: method
-    tagsSorter: alpha
+    operations-sorter: method
+    tags-sorter: alpha
     disable-swagger-default-url: true
+  api-docs:
+    path: /v3/api-docs
+  packages-to-scan: org.estudos.algafoods
+  paths-to-match:
+    - /api/**
 ```
 
 ## Solução de Problemas
@@ -141,4 +97,3 @@ Se você encontrar problemas com as dependências do Maven, verifique:
 3. Se há problemas de conectividade com os repositórios Maven
 
 Para Spring Boot 3.x, use `springdoc-openapi-starter-webmvc-ui`
-Para Spring Boot 2.x, use `springdoc-openapi-ui`
