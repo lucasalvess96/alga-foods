@@ -1,10 +1,11 @@
 package org.estudos.algafoods.restaurante;
 
-import org.estudos.algafoods.cozinha.Cozinha;
+import org.estudos.algafoods.cozinha.CozinhaDto;
 
 import java.time.LocalDateTime;
 
 import static org.estudos.algafoods.cozinha.CozinhaConverter.toCozinhaDto;
+import static org.estudos.algafoods.cozinha.CozinhaConverter.toCozinhaEntity;
 
 public class RestauranteConverter {
 
@@ -23,7 +24,7 @@ public class RestauranteConverter {
         );
     }
 
-    public static Restaurante toRestauranteEntity(RestauranteDto dto, Cozinha cozinha) {
+    public static Restaurante toRestauranteEntity(RestauranteDto dto, CozinhaDto cozinha) {
         Restaurante restaurante = new Restaurante();
         restaurante.setId(dto.id());
         restaurante.setNome(dto.nome());
@@ -31,7 +32,7 @@ public class RestauranteConverter {
         restaurante.setAtivo(dto.ativo());
         restaurante.setDataCadastro(LocalDateTime.now());
         restaurante.setDataAtualizacao(LocalDateTime.now());
-        restaurante.setCozinha(cozinha);
+        restaurante.setCozinha(toCozinhaEntity(cozinha));
         return restaurante;
     }
 }

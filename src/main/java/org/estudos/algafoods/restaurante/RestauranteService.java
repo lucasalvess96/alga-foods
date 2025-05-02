@@ -1,6 +1,6 @@
 package org.estudos.algafoods.restaurante;
 
-import org.estudos.algafoods.cozinha.Cozinha;
+import org.estudos.algafoods.cozinha.CozinhaDto;
 import org.estudos.algafoods.cozinha.CozinhaService;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class RestauranteService {
     }
 
     public RestauranteDto create(RestauranteDto dto) {
-        Cozinha cozinha = cozinhaService.detail(dto.cozinha().id());
+        CozinhaDto cozinha = cozinhaService.detail(dto.cozinha().id());
         Restaurante restaurante = restauranteRepository.save(toRestauranteEntity(dto, cozinha));
         return toRestauranteDto(restaurante);
     }
