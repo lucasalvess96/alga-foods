@@ -2,6 +2,9 @@ package org.estudos.algafoods.restaurante;
 
 import org.estudos.algafoods.cozinha.CozinhaDto;
 import org.estudos.algafoods.cozinha.CozinhaService;
+import org.estudos.algafoods.excecao.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,5 +34,24 @@ public class RestauranteService {
         return restauranteRepository.findAll().stream()
                 .map(RestauranteConverter::toRestauranteDto)
                 .toList();
+    }
+
+    public Page<RestauranteDto> pagination(Pageable pageable) {
+        return restauranteRepository.findAll(pageable)
+                .map(RestauranteConverter::toRestauranteDto);
+    }
+
+    public RestauranteDto detail(Long cozinhaId) {
+        return restauranteRepository.findById(cozinhaId)
+                .map(RestauranteConverter::toRestauranteDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Informações não encontradas para: " + cozinhaId));
+    }
+
+    public List<RestauranteDto> search(String nome) {
+        return restauranteRepository.findByNomeContainingIgnoreCase(nome).stream()
+                .map(restaurante -> new RestauranteDto(restaurante.getId(), restaurante.getNome(), restaurante.getTaxaFrete(),
+                                                       restaurante.getAtivo(), restaurante.getDataCadastro(), restaurante.getDataAtualizacao(),
+                                                       null
+                )).toList();
     }
 }
