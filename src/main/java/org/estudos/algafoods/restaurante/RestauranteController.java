@@ -2,6 +2,8 @@ package org.estudos.algafoods.restaurante;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +30,20 @@ public class RestauranteController {
     @GetMapping("/listar")
     public ResponseEntity<List<RestauranteDto>> listarCozinhas() {
         return ResponseEntity.ok(restauranteService.listar());
+    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<RestauranteDto>> pagination(Pageable pageable) {
+        return ResponseEntity.ok(restauranteService.pagination(pageable));
+    }
+
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<RestauranteDto> detail(@PathVariable Long id) {
+        return ResponseEntity.ok(restauranteService.detail(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<RestauranteDto>> searchList(@RequestParam String nome) {
+        return ResponseEntity.ok(restauranteService.search(nome));
     }
 }
