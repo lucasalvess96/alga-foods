@@ -49,9 +49,6 @@ public class RestauranteService {
 
     public List<RestauranteDto> search(String nome) {
         return restauranteRepository.findByNomeContainingIgnoreCase(nome).stream()
-                .map(restaurante -> new RestauranteDto(restaurante.getId(), restaurante.getNome(), restaurante.getTaxaFrete(),
-                                                       restaurante.getAtivo(), restaurante.getDataCadastro(), restaurante.getDataAtualizacao(),
-                                                       null
-                )).toList();
+                .map(RestauranteConverter::toRestauranteDto).toList();
     }
 }
