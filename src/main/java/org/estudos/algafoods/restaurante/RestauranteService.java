@@ -51,4 +51,8 @@ public class RestauranteService {
         return restauranteRepository.findByNomeContainingIgnoreCase(nome).stream()
                 .map(RestauranteConverter::toRestauranteDto).toList();
     }
+
+    public Page<RestauranteDto> searchPagination(String name, Pageable pageable) {
+        return restauranteRepository.findByNameContainingIgnoreCase(name, pageable).map(RestauranteConverter::toRestauranteDto);
+    }
 }
