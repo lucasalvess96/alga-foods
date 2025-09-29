@@ -48,7 +48,7 @@ public class RestauranteController {
     }
 
     @GetMapping("/search/pagination")
-    public ResponseEntity<Page<RestauranteDto>> searchPagination(@RequestParam String name, Pageable pageable) {
-        return ResponseEntity.ok(restauranteService.searchPagination(name, pageable));
+    public ResponseEntity<Page<RestauranteDto>> searchPagination(@RequestParam String nome, Pageable pageable) {
+        return ResponseEntity.ok(restauranteService.searchPagination(nome, pageable));
     }
 }
